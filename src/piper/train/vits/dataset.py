@@ -23,6 +23,8 @@ from piper.phonemize_espeak import EspeakPhonemizer
 
 from .mel_processing import spectrogram_torch
 from .utils import get_cache_id
+from ...phonemize_tokens import TokensPhonemizer
+from ...symbols import BAKRUS_PHONEME_ID_MAP
 
 _LOGGER = logging.getLogger(__name__)
 VAD_SAMPLE_RATE = 16000
@@ -113,7 +115,7 @@ class VitsDataModule(L.LightningDataModule):
                     num_speakers=self.num_speakers,
                     sample_rate=self.sample_rate,
                     espeak_voice=self.espeak_voice,
-                    phoneme_id_map=DEFAULT_PHONEME_ID_MAP,
+                    phoneme_id_map=BAKRUS_PHONEME_ID_MAP,
                     phoneme_type=PhonemeType.TOKENS,
                     piper_version="1.3.0",
                 ).to_dict(),
@@ -122,7 +124,7 @@ class VitsDataModule(L.LightningDataModule):
                 indent=2,
             )
 
-        phonemizer = EspeakPhonemizer()
+        phonemizer = TokensPhonemizer()
         vad = SileroVoiceActivityDetector()
 
         num_utterances = 0
@@ -149,7 +151,7 @@ class VitsDataModule(L.LightningDataModule):
                 phonemes: Optional[List[List[str]]] = None
                 phonemes_path = self.cache_dir / f"{cache_id}.phonemes.txt"
                 if not phonemes_path.exists():
-                    phonemes = phonemizer.phonemize(self.espeak_voice, text)
+                    phonemes = phonemizer.phonemize(text)
                     with open(phonemes_path, "w", encoding="utf-8") as phonemes_file:
                         for sentence_phonemes in phonemes:
                             print("".join(sentence_phonemes), file=phonemes_file)
@@ -161,7 +163,7 @@ class VitsDataModule(L.LightningDataModule):
                 phoneme_ids_path = self.cache_dir / f"{cache_id}.phonemes.pt"
                 if not phoneme_ids_path.exists():
                     if phonemes is None:
-                        phonemes = phonemizer.phonemize(self.espeak_voice, text)
+                        phonemes = phonemizer.phonemize(text)
 
                     phoneme_ids = list(
                         itertools.chain(
