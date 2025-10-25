@@ -18,10 +18,13 @@ from .config import PhonemeType, PiperConfig, SynthesisConfig
 from .const import BOS, EOS, PAD
 from .phoneme_ids import phonemes_to_ids
 from .phonemize_espeak import ESPEAK_DATA_DIR, EspeakPhonemizer
+from .phonemize_tokens import TokensPhonemizer
 from .tashkeel import TashkeelDiacritizer
 
 _ESPEAK_PHONEMIZER: Optional[EspeakPhonemizer] = None
 _ESPEAK_PHONEMIZER_LOCK = threading.Lock()
+_TOKENS_PHONEMIZER: Optional[TokensPhonemizer] = None
+_TOKENS_PHONEMIZER_LOCK = threading.Lock()
 
 _DEFAULT_SYNTHESIS_CONFIG = SynthesisConfig()
 _MAX_WAV_VALUE = 32767.0
@@ -173,6 +176,16 @@ class PiperVoice:
         if self.config.phoneme_type == PhonemeType.TEXT:
             # Phonemes = codepoints
             return [list(unicodedata.normalize("NFD", text))]
+
+        if self.config.phoneme_type == PhonemeType.TOKENS:
+            # Token-based phonemization (placeholder implementation)
+            with _TOKENS_PHONEMIZER_LOCK:
+                global _TOKENS_PHONEMIZER
+                if _TOKENS_PHONEMIZER is None:
+                    _TOKENS_PHONEMIZER = TokensPhonemizer()
+
+                return _TOKENS_PHONEMIZER.phonemize(text)
+
 
         if self.config.phoneme_type != PhonemeType.ESPEAK:
             raise ValueError(f"Unexpected phoneme type: {self.config.phoneme_type}")

@@ -14,6 +14,7 @@ DEFAULT_HOP_LENGTH: Final = 256
 class PhonemeType(str, Enum):
     ESPEAK = "espeak"
     TEXT = "text"
+    TOKENS = "tokens"
 
 
 @dataclass
@@ -65,7 +66,7 @@ class PiperConfig:
             #
             espeak_voice=config["espeak"]["voice"],
             phoneme_id_map=config["phoneme_id_map"],
-            phoneme_type=PhonemeType(config.get("phoneme_type", PhonemeType.ESPEAK)),
+            phoneme_type=PhonemeType(config.get("phoneme_type", PhonemeType.TOKENS)),
             speaker_id_map=config.get("speaker_id_map", {}),
             #
             piper_version=config.get("piper_version"),
