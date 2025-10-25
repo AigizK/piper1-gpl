@@ -7,4 +7,5 @@ python3 -m piper.train fit \
   --data.cache_dir /home/aigiz/tts_cache_dir/ \
   --data.config_path /home/aigiz/piper1-gpl/config.json \
   --data.batch_size 48 \
-  --trainer.devices=1
+  --trainer.devices=1 \
+  --data.num_workers 32
