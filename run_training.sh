@@ -7,4 +7,4 @@ python3 -m piper.train fit \
   --data.cache_dir /home/aigiz/tts_cache_dir/ \
   --data.config_path /home/aigiz/piper1-gpl/config.json \
   --data.batch_size 32 \
-  --ckpt_path /home/aigiz/piper1-gpl/ckpt_path/finetune.ckpt
+  --trainer.devices=1
