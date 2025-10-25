@@ -1,4 +1,5 @@
 import logging
+import pathlib
 
 import torch
 from lightning.pytorch.cli import LightningCLI
@@ -23,6 +24,12 @@ class VitsLightningCLI(LightningCLI):
 
 def main():
     logging.basicConfig(level=logging.INFO)
+    # Allowlist pathlib.PosixPath in torch's weights-only unpickler when loading ckpts
+    try:
+        torch.serialization.add_safe_globals([pathlib.PosixPath])
+    except Exception:  # pragma: no cover
+        pass
+
     torch.backends.cuda.matmul.allow_tf32 = True
     torch.backends.cudnn.allow_tf32 = True
     torch.backends.cudnn.deterministic = False
