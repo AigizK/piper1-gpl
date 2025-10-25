@@ -47,12 +47,12 @@ for vb in vowel_bases:
     for stress in (0, 1):
         token = f"{vb}{stress}"
         if token not in BAKRUS_PHONEME_ID_MAP:
-            BAKRUS_PHONEME_ID_MAP[token] = next_id
+            BAKRUS_PHONEME_ID_MAP[token] = [next_id]
             next_id += 1
 
 # 3) Russian 'j' (used standalone: from soft letters and for 'й')
 if 'j' not in BAKRUS_PHONEME_ID_MAP:
-    BAKRUS_PHONEME_ID_MAP['j'] = next_id
+    BAKRUS_PHONEME_ID_MAP['j'] = [next_id]
     next_id += 1
 
 # 4) Russian consonants
@@ -61,19 +61,19 @@ soft_hard_bases = sorted(set(softhard_cons.values()))
 for base in soft_hard_bases:
     for token in (base, f"{base}j"):
         if token not in BAKRUS_PHONEME_ID_MAP:
-            BAKRUS_PHONEME_ID_MAP[token] = next_id
+            BAKRUS_PHONEME_ID_MAP[token] = [next_id]
             next_id += 1
 
 #    - other consonants as-is (zh, c, ch, sh, sch, j)
 for token in sorted(set(other_cons.values())):
     if token not in BAKRUS_PHONEME_ID_MAP:
-        BAKRUS_PHONEME_ID_MAP[token] = next_id
+        BAKRUS_PHONEME_ID_MAP[token] = [next_id]
         next_id += 1
 
 # 5) Bashkir tokens (no stress/palatalization)
 for token in sorted(set(B_VOWELS.values())):
     if token not in BAKRUS_PHONEME_ID_MAP:
-        BAKRUS_PHONEME_ID_MAP[token] = next_id
+        BAKRUS_PHONEME_ID_MAP[token] = [next_id]
         next_id += 1
 for token in sorted(set(B_CONS.values())):
     if token not in BAKRUS_PHONEME_ID_MAP:
@@ -86,4 +86,4 @@ symbols = list(BAKRUS_PHONEME_ID_MAP.keys())
 # Special symbol ids
 SPACE_ID = symbols.index(" ")
 
-print(BAKRUS_PHONEME_ID_MAP)
+# Debug printing removed to avoid noisy imports
