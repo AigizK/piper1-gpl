@@ -11,7 +11,7 @@ Rules:
 - Bashkir phones use "*2" tokens from B_VOWELS/B_CONS (no stress/palatalization).
 """
 
-from baru_dictionary import (
+from .baru_dictionary import (
     softhard_cons,
     other_cons,
     vowels,
@@ -39,7 +39,7 @@ BAKRUS_PHONEME_ID_MAP : dict[str, list[int]] = {
     "#": [15],# тип предложения Neutral
 }
 
-next_id = max(BAKRUS_PHONEME_ID_MAP.values()) + 1
+next_id = len(BAKRUS_PHONEME_ID_MAP)
 
 # 2) Russian vowels with stress
 vowel_bases = sorted(set(vowels.values()), key=lambda x: ['a', 'e', 'i', 'o', 'u', 'y'].index(x))
