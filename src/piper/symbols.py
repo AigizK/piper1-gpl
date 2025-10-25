@@ -77,7 +77,7 @@ for token in sorted(set(B_VOWELS.values())):
         next_id += 1
 for token in sorted(set(B_CONS.values())):
     if token not in BAKRUS_PHONEME_ID_MAP:
-        BAKRUS_PHONEME_ID_MAP[token] = next_id
+        BAKRUS_PHONEME_ID_MAP[token] = [next_id]
         next_id += 1
 
 # Export symbols list based on pmap insertion order
