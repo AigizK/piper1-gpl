@@ -174,7 +174,7 @@ def convert_bashkir(word: str) -> str:
             continue
         # Fallback: keep as-is if already b_* or known ascii token
         phones.append(ch)
-    return " ".join(phones)
+    return phones
 
 def pallatize(phones):
     for i, phone in enumerate(phones[:-1]):
@@ -228,4 +228,4 @@ def convert(stressword, lang):
     # Filter
     phones = [x for x in phones if x not in others]
 
-    return " ".join(phones)
+    return phones

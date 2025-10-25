@@ -73,42 +73,14 @@ class TokensPhonemizer:
             processed_segments.append((lang, seg))
         segments = processed_segments
 
-        text_no_tags = "".join(seg for _, seg in segments)
-
-        pattern_simple = r"(,.?!;:\'() )"
-        text_simple = text_no_tags
-
-        # Построим очередь языков на основе сегментов
-        word_lang_queue = []
+        phonemes = []
         for lang, seg in segments:
-            s = seg
-            for tok in re.split(pattern_simple, s.lower()):
-                if not tok:
-                    continue
-                if re.match(pattern_simple, tok) or tok == '-' or tok == ' ':
-                    continue
-                word_lang_queue.append('ru' if lang.lower() == 'ru' else 'ba')
-
-        phonemes = ["^"]
-        word_index = 1
-        word_lang_i = 0
-        for word in re.split(pattern_simple, text_simple.lower()):
-            if word == "":
-                continue
-            if re.match(pattern_simple, word) or word == '-':
-                phonemes.append(word)
+            if lang == 'ru':
+                for p in convert(seg.lower(), 'ru'):
+                    phonemes.append(p)
             else:
-                lang = word_lang_queue[word_lang_i] if word_lang_i < len(word_lang_queue) else 'ba'
-                word_lang_i += 1
-                if lang == 'ru':
-                    for p in convert(word, 'ru').split():
-                        phonemes.append(p)
-                else:
-                    for p in convert(word, 'ba').split():
-                        phonemes.append(p)
-            if word != " ":
-                word_index = word_index + 1
-        phonemes.append("$")
+                for p in convert(seg.lower(), 'ba'):
+                    phonemes.append(p)
 
         return phonemes
 
@@ -138,3 +110,8 @@ class TokensPhonemizer:
             all_sentences.append(current)
 
         return all_sentences
+
+
+if __name__ == "__main__":
+    phonemizer = TokensPhonemizer()
+    print(phonemizer.phonemize("ru:Привет, как твои дела? ba:Минең хәлдәрем яҡшы!"))
