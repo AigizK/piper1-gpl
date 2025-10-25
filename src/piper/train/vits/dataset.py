@@ -114,7 +114,7 @@ class VitsDataModule(L.LightningDataModule):
                     sample_rate=self.sample_rate,
                     espeak_voice=self.espeak_voice,
                     phoneme_id_map=DEFAULT_PHONEME_ID_MAP,
-                    phoneme_type=PhonemeType.ESPEAK,
+                    phoneme_type=PhonemeType.TOKENS,
                     piper_version="1.3.0",
                 ).to_dict(),
                 config_file,
