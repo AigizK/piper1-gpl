@@ -19,12 +19,11 @@ from torch.utils.data import DataLoader, Dataset, random_split
 
 from piper.config import PhonemeType, PiperConfig
 from piper.phoneme_ids import DEFAULT_PHONEME_ID_MAP, phonemes_to_ids
-from piper.phonemize_espeak import EspeakPhonemizer
+from piper.phonemize_tokens import TokensPhonemizer
+from piper.symbols import BAKRUS_PHONEME_ID_MAP
 
 from .mel_processing import spectrogram_torch
 from .utils import get_cache_id
-from ...phonemize_tokens import TokensPhonemizer
-from ...symbols import BAKRUS_PHONEME_ID_MAP
 
 _LOGGER = logging.getLogger(__name__)
 VAD_SAMPLE_RATE = 16000
