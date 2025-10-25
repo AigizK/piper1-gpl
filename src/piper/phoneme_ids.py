@@ -5,6 +5,7 @@ from collections.abc import Mapping, Sequence
 from typing import Optional
 
 from .const import BOS, EOS, PAD
+from .symbols import BAKRUS_PHONEME_ID_MAP
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -179,7 +180,7 @@ def phonemes_to_ids(
 ) -> list[int]:
     """Phonemes to ids."""
     if not id_map:
-        id_map = DEFAULT_PHONEME_ID_MAP
+        id_map = BAKRUS_PHONEME_ID_MAP
 
     ids: list[int] = []
     ids.extend(id_map[BOS])

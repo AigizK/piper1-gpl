@@ -85,3 +85,5 @@ symbols = list(BAKRUS_PHONEME_ID_MAP.keys())
 
 # Special symbol ids
 SPACE_ID = symbols.index(" ")
+
+print(BAKRUS_PHONEME_ID_MAP)
